@@ -61,6 +61,8 @@ cpdefine("inline:com-chilipeppr-workspace-khanh", ["chilipeppr_ready"], function
          */
         init: function() {
 
+            this.loadGRBLWidget();
+
             // Most workspaces will instantiate the Serial Port JSON Server widget
             this.loadSpjsWidget();
             // Most workspaces will instantiate the Serial Port Console widget
@@ -137,6 +139,29 @@ cpdefine("inline:com-chilipeppr-workspace-khanh", ["chilipeppr_ready"], function
                     );
                 }
             );
+        },
+        /**
+         * Load the GRBL widget chilipeppr.load()
+         */
+        loadGRBLWidget: function(callback) {
+
+            chilipeppr.load(
+              "#com-chilipeppr-grbl-instance",
+              "http://raw.githubusercontent.com/raykholo/workspace-grbl/master/auto-generated-workspace.html",
+              function() {
+                // Callback after workspace loaded into #pnlWorkspace
+                // Now use require.js to get reference to instantiated workspace
+                cprequire(
+                  ["inline:com-chilipeppr-workspace-grbl"], // the id you gave your workspace
+                  function(myWorkspaceGrbl) {
+                    // Callback that is passed reference to the newly loaded workspace
+                    console.log("Workspace / grbl just got loaded.", myWorkspaceGrbl);
+                    myWorkspaceGrbl.init();
+                  }
+                );
+              }
+            );
+
         },
         /**
          * Load the Serial Port JSON Server widget via chilipeppr.load()
